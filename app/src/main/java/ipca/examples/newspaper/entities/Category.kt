@@ -2,7 +2,7 @@ package ipca.examples.newspaper.entities
 
 import org.json.JSONObject
 
-class Category : BaseModel() {
+class Category(jsonObject: JSONObject) : BaseModel(jsonObject) {
 
     var image : Int? = null
 
