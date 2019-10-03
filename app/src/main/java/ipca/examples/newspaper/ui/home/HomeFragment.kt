@@ -14,7 +14,10 @@ import ipca.examples.newspaper.R
 import ipca.examples.newspaper.entities.BaseModel
 import ipca.examples.newspaper.entities.Category
 import ipca.examples.newspaper.entities.News
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.net.URL
 import java.nio.charset.Charset
 import java.util.*
@@ -34,13 +37,17 @@ class HomeFragment : Fragment() {
         homeViewModel =
             ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
         homeViewModel.text.observe(this, Observer {
-            textView.text = it
+
         })
-        downloadData()
+
         //testPOO ()
         return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        downloadData()
     }
 
     fun downloadData(){
@@ -55,14 +62,22 @@ class HomeFragment : Fragment() {
 
                 return null
             }
+
+            override fun onPostExecute(result: String?) {
+                super.onPostExecute(result)
+            }
         }.execute(null, null, null)
 
-         */
 
+*/
         doAsync {
             var url = URL(BASE_API)
             var urlContent = url.readText(Charset.defaultCharset())
             Log.d("TestPOO", urlContent)
+
+            uiThread {
+                textHome.text = urlContent
+            }
         }
     }
 
