@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,6 +12,14 @@ import ipca.examples.newspaper.entities.Article
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import java.text.FieldPosition
+import android.graphics.BitmapFactory
+import android.graphics.Bitmap
+import android.widget.*
+import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+
 
 class HomeFragment : Fragment() {
 
@@ -47,9 +52,22 @@ class HomeFragment : Fragment() {
 
             var textViewTitle = v.findViewById<TextView>(R.id.textViewTitle)
             var textViewDescription= v.findViewById<TextView>(R.id.textViewDescription)
+            var imageViewArticle = v.findViewById<ImageView>(R.id.imageViewArticle)
             textViewTitle.text = articles.get(position).title
             textViewDescription.text = articles.get(position).description
 
+            articles.get(position).urlToImage?.let { urlImage ->
+                downloadImageFromUrl(urlImage){bmp->
+                    imageViewArticle.setImageBitmap(bmp)
+                }
+            }
+
+            v.setOnClickListener {
+                //Toast.makeText(this@HomeFragment.context, articles.get(position).title, Toast.LENGTH_LONG).show()
+                //Snackbar.make(v,articles.get(position).title!!,Snackbar.LENGTH_LONG).show()
+                v.findNavController().navigate(R.id.nav_article_detail)
+                //articles.get(position)
+            }
 
             return v
         }
@@ -66,6 +84,16 @@ class HomeFragment : Fragment() {
             return articles.size
         }
 
+    }
+
+    fun downloadImageFromUrl(urlImage : String, callback : (Bitmap) -> Unit )  {
+        doAsync {
+            val input = java.net.URL(urlImage).openStream()
+            var bmp = BitmapFactory.decodeStream(input)
+            uiThread {
+                callback(bmp)
+            }
+        }
     }
 
 }
