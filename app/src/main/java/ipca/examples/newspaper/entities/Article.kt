@@ -4,7 +4,7 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Articles : BaseModel {
+class Article : BaseModel {
 
     var author      : String?    = null
     var description : String?    = null
