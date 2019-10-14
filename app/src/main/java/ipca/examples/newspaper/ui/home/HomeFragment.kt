@@ -63,10 +63,9 @@ class HomeFragment : Fragment() {
             }
 
             v.setOnClickListener {
-                //Toast.makeText(this@HomeFragment.context, articles.get(position).title, Toast.LENGTH_LONG).show()
-                //Snackbar.make(v,articles.get(position).title!!,Snackbar.LENGTH_LONG).show()
-                v.findNavController().navigate(R.id.nav_article_detail)
-                //articles.get(position)
+                var action = HomeFragmentDirections.
+                    actionNavHomeToNavArticleDetail(articles.get(position).toJson().toString())
+                v.findNavController().navigate(action)
             }
 
             return v

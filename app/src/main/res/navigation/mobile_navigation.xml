@@ -19,7 +19,11 @@
         android:id="@+id/nav_article_detail"
         android:name="ipca.examples.newspaper.ui.home.ArticleDetailFragment"
         android:label="Artigo"
-        tools:layout="@layout/fragment_article_detail" />
+        tools:layout="@layout/fragment_article_detail" >
+        <argument
+            android:name="articleJson"
+            app:argType="string" />
+    </fragment>
 
 
 </navigation>

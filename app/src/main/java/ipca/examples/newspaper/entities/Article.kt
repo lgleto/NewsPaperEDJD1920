@@ -36,16 +36,23 @@ class Article : BaseModel {
         return date
     }
 
+    fun date2string(date:Date):String{
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        return formatter.format(date)
+    }
+
 
 
     override fun toJson(): JSONObject {
         val jsonObject = super.toJson()
-        /*
-        jsonObject.put("date", date.toString())
-        jsonObject.put("url", url)
-        jsonObject.put("image", image)
-        jsonObject.put("category", category?.toJson())
-        jsonObject.put("newspaper", source?.toJson())*/
+        jsonObject.put("author"     , author     )
+        jsonObject.put("description", description)
+        jsonObject.put("publishedAt", date2string(publishedAt!!))
+        jsonObject.put("url"        , url        )
+        jsonObject.put("urlToImage" , urlToImage )
+        jsonObject.put("content"    , content    )
+        jsonObject.put("source"     , source?.toJson()     )
+        jsonObject.put("category"   , category?.toJson()   )
         return jsonObject
     }
 
