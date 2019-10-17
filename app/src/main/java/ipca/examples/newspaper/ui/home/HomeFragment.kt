@@ -10,13 +10,10 @@ import androidx.lifecycle.ViewModelProviders
 import ipca.examples.newspaper.R
 import ipca.examples.newspaper.entities.Article
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.nav_header_main.view.*
-import java.text.FieldPosition
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
 import android.widget.*
 import androidx.navigation.findNavController
-import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -50,7 +47,7 @@ class HomeFragment : Fragment() {
 
             val v = layoutInflater.inflate(R.layout.row_article, viewGroup, false)
 
-            var textViewTitle = v.findViewById<TextView>(R.id.textViewTitle)
+            var textViewTitle = v.findViewById<TextView>(R.id.textViewTilteArt)
             var textViewDescription= v.findViewById<TextView>(R.id.textViewDescription)
             var imageViewArticle = v.findViewById<ImageView>(R.id.imageViewArticle)
             textViewTitle.text = articles.get(position).title

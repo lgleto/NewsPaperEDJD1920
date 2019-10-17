@@ -1,6 +1,8 @@
 package ipca.examples.newspaper.ui.home
 
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import ipca.examples.newspaper.R
 import ipca.examples.newspaper.entities.Article
 import kotlinx.android.synthetic.main.fragment_article_detail.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 
 /**
@@ -41,7 +45,21 @@ class ArticleDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = article?.title
-        textViewArticleDetailDescription.text=article?.title
+        textViewTilteArt.text =  article?.title
+        downloadImageFromUrl(article?.urlToImage!!){
+            imageViewArt.setImageBitmap(it)
+        }
+        textViewDescription.text=article?.description
+    }
+
+    fun downloadImageFromUrl(urlImage : String, callback : (Bitmap) -> Unit )  {
+        doAsync {
+            val input = java.net.URL(urlImage).openStream()
+            var bmp = BitmapFactory.decodeStream(input)
+            uiThread {
+                callback(bmp)
+            }
+        }
     }
 
 
